@@ -9,13 +9,16 @@ def search_github(topic:str)->List[str]:
     return urls
 
 def scrape_readme(url:str)->str:
-    res=httpx.get(url.replace("github.com", "raw.githubusercontent.com") + "/master/README.md")
-    if res.status_code==404:
-        res=httpx.get(url.replace("github.com", "raw.githubusercontent.com") + "/main/README.md")
-    return res.text
+    base_url = url.replace("github.com", "raw.githubusercontent.com")
+    readme_paths = ["/master/README.md", "/main/README.md", "/master/README", "/main/README"]
+
+    last_response = None
+    for path in readme_paths:
+        last_response = httpx.get(base_url + path)
+        if last_response.status_code != 404:
+            return last_response.text
+
+    return last_response.text if last_response is not None else ""
 
 def scrape_all(urls:List[str])->List[str]:
-    contents=[]
-    for url in urls:
-        contents.append(scrape_readme(url))
-    return contents
+    return [scrape_readme(url) for url in urls]
