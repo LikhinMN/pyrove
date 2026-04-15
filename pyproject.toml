@@ -12,10 +12,12 @@ dependencies = [
     "asyncio>=4.0.0",
     "httpx>=0.28.1",
     "trafilatura>=2.0.0",
+    "typer>=0.9.0",
+    "rich>=13.0.0",
 ]
 
 [project.scripts]
-pyrove = "pyrove:main"
+rove = "pyrove:main"
 
 [build-system]
 requires = ["uv_build>=0.9.27,<0.10.0"]
