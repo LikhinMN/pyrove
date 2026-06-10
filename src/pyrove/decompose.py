@@ -6,7 +6,8 @@ from typing import List, Optional
 
 logger = logging.getLogger(__name__)
 
-OLLAMA_URL = "http://localhost:11434/api/generate"
+from pyrove.config import OLLAMA_API_URL, OLLAMA_TIMEOUT
+
 DEFAULT_MODEL = "llama3"
 
 
@@ -48,14 +49,14 @@ Subtopics:"""
         
         async with httpx.AsyncClient() as client:
             response = await client.post(
-                OLLAMA_URL,
+                f"{OLLAMA_API_URL}/api/generate",
                 json={
                     "model": model,
                     "prompt": prompt,
                     "stream": False,
                     "temperature": 0.7,
                 },
-                timeout=60.0,
+                timeout=OLLAMA_TIMEOUT,
             )
             response.raise_for_status()
             

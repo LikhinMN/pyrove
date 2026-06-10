@@ -7,7 +7,8 @@ from dataclasses import dataclass
 
 logger = logging.getLogger(__name__)
 
-OLLAMA_API_URL = "http://localhost:11434"
+from pyrove.config import OLLAMA_API_URL, OLLAMA_TIMEOUT
+
 DEFAULT_MODEL = "llama3"
 
 
@@ -63,7 +64,7 @@ async def list_ollama_models(timeout: float = 5.0) -> list[str]:
 async def query_ollama(
     prompt: str,
     model: str = DEFAULT_MODEL,
-    timeout: float = 120.0,
+    timeout: float = OLLAMA_TIMEOUT,
     max_retries: int = 2
 ) -> str:
     """
@@ -287,7 +288,7 @@ RESPONSE: [a detailed, accurate answer based on the content]
     
     try:
         logger.debug(f"Querying {model} for chunk from {source}...")
-        response_text = await query_ollama(prompt, model=model, timeout=120.0)
+        response_text = await query_ollama(prompt, model=model, timeout=OLLAMA_TIMEOUT)
         
         # Parse response
         parsed = _parse_response(response_text)

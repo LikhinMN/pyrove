@@ -7,6 +7,8 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+from pyrove.config import GITHUB_TOKEN
+
 GITHUB_API_URL = "https://api.github.com"
 RAW_GITHUB_URL = "https://raw.githubusercontent.com"
 RATE_LIMIT_DELAY = 5  # seconds to wait if rate limited
@@ -23,7 +25,10 @@ class GitHubResult:
 
 def _get_github_headers() -> Dict[str, str]:
     """Return GitHub API headers"""
-    return {"Accept": "application/vnd.github+json"}
+    headers = {"Accept": "application/vnd.github+json"}
+    if GITHUB_TOKEN:
+        headers["Authorization"] = f"Bearer {GITHUB_TOKEN}"
+    return headers
 
 
 def _handle_rate_limit(response: httpx.Response) -> None:
