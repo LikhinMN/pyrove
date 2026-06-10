@@ -1,7 +1,7 @@
 [project]
 name = "pyrove"
 version = "0.1.0"
-description = "Add your description here"
+description = "Topic-driven dataset synthesis for LoRA fine-tuning of Large Language Models."
 readme = "README.md"
 authors = [
     { name = "Likhin M N", email = "mnlikhin@gmail.com" }
